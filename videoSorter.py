@@ -8,10 +8,9 @@ def findVideos(files_dict,path, ext):
     for name in files:
       full_path = join(root, name)
       #this line prints if there are any more video formats that I'm missing
-      #if '.JPG' != splitext(name)[1] and '.jpg' != splitext(name)[1] and '.THM' != splitext(name)[1] and '.MP4' != splitext(name)[1] and '.MOV' != splitext(name)[1] 
 #      if splitext(name)[1].lower() not in ['.jpg','.thm','.mp4','.mov','.png','.avi']:
  #       print full_path
-      if ext == splitext(name)[1].lower():
+      if splitext(name)[1].lower() in ext and '._' not in splitext(name)[0]:
         try:
           mtime = os.path.getmtime(full_path)
           files_dict[full_path]=mtime
@@ -36,9 +35,8 @@ def processVideos(mydic,prefix):
   yearmonths=[]
   file_counter=0
   for files in ordered_files.items():
-    print 'current file:', files[0], '==>', files[1]
     moyr=datetime.datetime.fromtimestamp(int(files[1])).strftime('%Y-%m')
-    src, dst = files[0], prefix + moyr + '/' + str("%5.5o"%(file_counter))
+    src, dst = files[0], prefix + moyr + '/' + str("%5.5d"%(file_counter))
     if moyr not in yearmonths:
       #make the dir and linkt the first file
       yearmonths.append(moyr)
@@ -46,15 +44,19 @@ def processVideos(mydic,prefix):
       if not os.path.exists(prefix + moyr):
         os.makedirs(prefix + moyr)
         file_counter=0
-        dst = prefix + moyr + '/' + str("%5.5o"%(file_counter))
+        dst = prefix + moyr + '/' + str("%5.5d"%(file_counter))
     compareExt(files[0],src,dst)
+    print 'current file:', files[0], '==>', moyr + '/' + str("%5.5d"%(file_counter))
     file_counter+=1
   print len(ordered_files),'files processed!!'
 
 prefix='/vol4/BluRayVideoLinks/'
+extensions = ['.mp4', '.mov', '.avi', '.mpg', '.3gp']
 mydic={}
-mydic=findVideos(mydic,'/vol4/Photos','.mp4')
-mydic=findVideos(mydic,'/vol4/Photos','.mov')
-mydic=findVideos(mydic,'/vol4/Photos','.avi')
-mydic=findVideos(mydic,'/vol4/Photos','.mpg')
+mydic=findVideos(mydic,'/vol4/Photos',extensions)
+#mydic=findVideos(mydic,'/vol4/Photos','.mov')
+#mydic=findVideos(mydic,'/vol4/Photos','.avi')
+#mydic=findVideos(mydic,'/vol4/Photos','.mpg')
+#mydic=findVideos(mydic,'/vol4/Photos','.3gp')
+
 processVideos(mydic,prefix)

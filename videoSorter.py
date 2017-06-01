@@ -56,8 +56,12 @@ def processVideos(mydic,prefix):
       #print files[0], '==>', datetime.datetime.fromtimestamp(int(files[1])).strftime('%Y-%m')
       if 'MOV' in files[0]:
         createLink (src, dst, '.MOV')
-      else:
+      elif 'mp4' or 'MP4' in files[0]:
         createLink (src, dst, '.MP4')
+      elif 'avi' or 'AVI' in files[0]:
+        createLink (src, dst, 'AVI')
+      elif 'mpg' or 'MPG' in files[0]:
+        createLink (src, dst, 'MPG')
       file_counter+=1
   print len(ordered_files),'files processed!!'
 

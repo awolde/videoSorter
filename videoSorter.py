@@ -54,9 +54,6 @@ prefix='/vol4/BluRayVideoLinks/'
 extensions = ['.mp4', '.mov', '.avi', '.mpg', '.3gp']
 mydic={}
 mydic=findVideos(mydic,'/vol4/Photos',extensions)
-#mydic=findVideos(mydic,'/vol4/Photos','.mov')
-#mydic=findVideos(mydic,'/vol4/Photos','.avi')
-#mydic=findVideos(mydic,'/vol4/Photos','.mpg')
-#mydic=findVideos(mydic,'/vol4/Photos','.3gp')
+
 
 processVideos(mydic,prefix)
